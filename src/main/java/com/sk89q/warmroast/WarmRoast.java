@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
@@ -189,6 +190,10 @@ public class WarmRoast extends TimerTask {
         context.addServlet(new ServletHolder(new HttpServlet() {
             @Override
             protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                response.setContentType("text/html; charset=utf-8");
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().close();
+
                 System.err.println("Detaching from VM...");
                 vm.detach();
                 System.err.println("Bye!");
