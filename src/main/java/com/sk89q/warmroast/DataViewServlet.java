@@ -42,6 +42,9 @@ public class DataViewServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html; charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
         
         PrintWriter w = response.getWriter();
         w.println("<!DOCTYPE html><html><head><title>WarmRoast</title>");
