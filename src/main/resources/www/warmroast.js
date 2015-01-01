@@ -1,13 +1,21 @@
 $(".name").on("click", function(event) {
     var $parent = $(this).parent();
-    if ($parent.hasClass("collapsed")) {
-        $parent.removeClass("collapsed");
-        $parent.children("ul").slideDown(50);
-    } else {
-        $parent.addClass("collapsed");
-        $parent.children("ul").slideUp(50);
-    }
+    open($parent);
 });
+
+function open(el) {
+    if (el.hasClass("collapsed")) {
+        el.removeClass("collapsed");
+        var childs = el.children("ul");
+        childs.slideDown(50);
+        if(childs.children().length == 1) {
+            open(childs.children().find("div").first());
+        }
+    } else {
+        el.addClass("collapsed");
+        el.children("ul").slideUp(50);
+    }
+}
 
 function extractTime($el) {
     var text = $el.children(".name")
