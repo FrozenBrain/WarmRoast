@@ -16,7 +16,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.sk89q.warmroast;
+package com.sk89q.warmroast.servlet;
+
+import com.sk89q.warmroast.StackNode;
+import com.sk89q.warmroast.WarmRoast;
 
 import java.io.IOException;
 import java.io.PrintWriter;

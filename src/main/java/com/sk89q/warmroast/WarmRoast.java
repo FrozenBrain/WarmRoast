@@ -22,7 +22,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
@@ -48,6 +47,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sk89q.warmroast.servlet.DataViewServlet;
+import com.sk89q.warmroast.servlet.ResetServlet;
+import com.sk89q.warmroast.servlet.StopServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
@@ -94,7 +96,11 @@ public class WarmRoast extends TimerTask {
         }
         return node;
     }
-    
+
+    public VirtualMachine getVirtualMachine() {
+        return vm;
+    }
+
     public McpMapping getMapping() {
         return mapping;
     }
@@ -187,26 +193,8 @@ public class WarmRoast extends TimerTask {
         ServletContextHandler context = new ServletContextHandler();
         context.setContextPath("/");
         context.addServlet(new ServletHolder(new DataViewServlet(this)), "/stack");
-        context.addServlet(new ServletHolder(new HttpServlet() {
-            @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                response.setContentType("text/html; charset=utf-8");
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().close();
-
-                System.err.println("Detaching from VM...");
-                vm.detach();
-                System.err.println("Bye!");
-                System.exit(0);
-            }
-        }), "/stop");
-        context.addServlet(new ServletHolder(new HttpServlet() {
-            @Override
-            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                getData().clear();
-                response.sendRedirect("/stack");
-            }
-        }), "/reset");
+        context.addServlet(new ServletHolder(new StopServlet(this)), "/stop");
+        context.addServlet(new ServletHolder(new ResetServlet(this)), "/reset");
 
         ResourceHandler resources = new ResourceHandler();
         String filesDir = WarmRoast.class.getResource("/www").toExternalForm();
