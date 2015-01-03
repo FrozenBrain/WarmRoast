@@ -200,6 +200,13 @@ public class WarmRoast extends TimerTask {
                 System.exit(0);
             }
         }), "/stop");
+        context.addServlet(new ServletHolder(new HttpServlet() {
+            @Override
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                getData().clear();
+                response.sendRedirect("/stack");
+            }
+        }), "/reset");
 
         ResourceHandler resources = new ResourceHandler();
         String filesDir = WarmRoast.class.getResource("/www").toExternalForm();

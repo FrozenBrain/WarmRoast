@@ -66,6 +66,7 @@ public class DataViewServlet extends HttpServlet {
         w.println("</div>");
         w.println("<p>");
         w.println("<a href=\"/stop\">Stop</a>");
+        w.println("<a href=\"/reset\">Reset</a>");
         w.println("</p>");
         w.println("<p class=\"legend\">Legend: ");
         w.println("<span class=\"matched\">Mapped</span> ");
